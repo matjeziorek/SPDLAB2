@@ -5,12 +5,15 @@
 #include <string>
 
 using namespace std;
+
 class Zadanie {
 public:
 	int terminDostepnosci;      //r
 	int czasWykonania;		    //p
 	int czasDostarczenia;       //q
 };
+
+
 
 struct PorownajCzasDostarczenia {
 	bool operator ()(const Zadanie & zadanie1, const Zadanie & zadanie2) {
@@ -28,13 +31,13 @@ struct PorownajTerminDostepnosci {
 
 int main() {
 
-	vector<Zadanie> dane;  //wektor danych z pliku
+	vector<Zadanie> dane;  //wektor danych z pliku  
 	fstream plik;
 
 	//tworzymy kolejke
 	priority_queue < Zadanie, vector < Zadanie >, PorownajTerminDostepnosci > zbiorN; //kolejka R
 	priority_queue < Zadanie, vector < Zadanie >, PorownajCzasDostarczenia > zbiorG;  //kolejka Q
-
+		
 	string nazwaPliku;
 	nazwaPliku = "dane.txt";
 	plik.open(nazwaPliku, ios::in);
@@ -70,6 +73,7 @@ int main() {
 	//1 krok inicjalizacja wszystkich zmiennych
 	int t = 0;      //chwila czasowa
 	int k = 0;      //pozycja w permutacji
+	int x = 0;
 	int cMax = 0;   //maksymalny z terminow dostarczenia zadan
 					//wykonuj dopoki zbior g lub n jest p nie jest pusty
 	while (!(zbiorG.empty()) || !(zbiorN.empty())) {
@@ -93,6 +97,7 @@ int main() {
 		//zadanie to usuwane jest ze zbioru g
 		t = t + zbiorG.top().czasWykonania;
 		cMax = max(cMax, t + zbiorG.top().czasDostarczenia);
+		cout << (int)zbiorG.top().terminDostepnosci << " : " << (int)zbiorG.top().czasWykonania << " : " << (int)zbiorG.top().czasDostarczenia << endl; 
 		zbiorG.pop();
 	}
 
